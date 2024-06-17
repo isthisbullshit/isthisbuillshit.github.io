@@ -8,44 +8,70 @@
       body {
         font-family: Arial, sans-serif;
         text-align: center;
-        margin-top: 20%;
+        margin-top: 15%;
+        background-color: #333;
+        color: white;
+        background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2b2b2' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      @media screen and (prefers-color-scheme: light) {
+        body {
+          background-color: #eee;
+          color: black;
+        }
+      }
+      button {
+        font-size: 1rem;
+        cursor: pointer;
       }
     </style>
     <meta
       name="description"
-      content="A complex AI tool to check if a given text or URL is bullshit or not."
+      content="An AI tool to check if a given text or URL is bullshit or not."
     />
     <script src="/main.js" defer></script>
   </head>
   <body>
-    <h1>Is this bullshit</h1>
-    <p>
-      Paste anything here, a message from a colleague, a URL, anything text
-      based and we'll use the latest AI techniques to analyse whether this is
-      bullshit or not.
-    </p>
-    <div>
-      <textarea id="input" rows="15" cols="50"></textarea>
-    </div>
-    <div>
-      <button id="check" style="margin-top: 1.5em">Check for bullshit</button>
-    </div>
-    <div>
-      <p id="loading" class="loading" style="display: none; font-weight: bold">
-        Checking...
-      </p>
-    </div>
-    <div id="bs-report" style="display: none">
-      <h2>Bullshit report</h2>
-      <p><strong>Summary: </strong>Bullshit found*</p>
-      <p><strong>BS Score: </strong>96.03</p>
-      <p><strong>Flavour: </strong>political, snake oil</p>
-      <p><strong>Intensity: </strong>58%</p>
-      <small
-        >*We can make mistakes, don't use this tool for relationship, financial
-        or professional advice. We can't be held accountable for any actions
-        taken after viewing this report.</small
-      >
+    <div style="max-width: 70ch; margin: auto">
+      <h1>Is this bullshit</h1>
+      <div id="bs-query">
+        <p>
+          Paste anything here, a message from a colleague, a URL, anything text
+          based and we'll use the latest AI techniques to analyse whether this
+          is bullshit or not.
+        </p>
+        <div>
+          <textarea id="input" rows="15" cols="50"></textarea>
+        </div>
+        <div>
+          <button id="check" style="margin: 1rem">Check for bullshit</button>
+        </div>
+        <div>
+          <p
+            id="loading"
+            class="loading"
+            style="display: none; font-weight: bold"
+          >
+            Checking...
+          </p>
+        </div>
+      </div>
+      <div id="bs-report" style="display: none">
+        <h2>Bullshit report</h2>
+        <p><strong>Summary: </strong>Bullshit found*</p>
+        <p><strong>BS Score: </strong>96.03</p>
+        <p><strong>Flavour: </strong>political, snake oil</p>
+        <p><strong>Intensity: </strong>58%</p>
+        <div>
+          <button id="check-again" style="margin: 1rem">
+            Do another bullshit query
+          </button>
+        </div>
+        <small
+          >*We can make mistakes, don't use this tool for relationship,
+          financial or professional advice. We can't be held accountable for any
+          actions taken after viewing this report.</small
+        >
+      </div>
     </div>
   </body>
 </html>

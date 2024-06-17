@@ -25,10 +25,27 @@
       bullshit or not.
     </p>
     <div>
-      <textarea id="input" rows="4" cols="50"></textarea>
+      <textarea id="input" rows="15" cols="50"></textarea>
     </div>
     <div>
-      <button>Check for bullshit</button>
+      <button id="check" style="margin-top: 1.5em">Check for bullshit</button>
+    </div>
+    <div>
+      <p id="loading" class="loading" style="display: none; font-weight: bold">
+        Checking...
+      </p>
+    </div>
+    <div id="bs-report" style="display: none">
+      <h2>Bullshit report</h2>
+      <p><strong>Summary: </strong>Bullshit found*</p>
+      <p><strong>BS Score: </strong>96.03</p>
+      <p><strong>Flavour: </strong>political, snake oil</p>
+      <p><strong>Intensity: </strong>58%</p>
+      <small
+        >*We can make mistakes, don't use this tool for relationship, financial
+        or professional advice. We can't be held accountable for any actions
+        taken after viewing this report.</small
+      >
     </div>
   </body>
 </html>

@@ -1,3 +1,9 @@
+function stringToHash(string) {
+    return string.split('').reduce((hash, char) => {
+        return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
+    }, 0);
+}
+
 const main = () => {
   const _elements = {
     checkBtn: document.getElementById("check"),
@@ -6,6 +12,7 @@ const main = () => {
     loading: document.getElementById("loading"),
     bsQuery: document.getElementById("bs-query"),
     bsReport: document.getElementById("bs-report"),
+    bsStrength: document.getElementById("bs-strength"),
   };
 
   const aiServices = [
@@ -73,6 +80,7 @@ const main = () => {
 
     _elements.loading.style.display = "block";
     _elements.bsReport.style.display = "none";
+    _elements.bsQuery.style.display = "none";
     _elements.checkBtn.disabled = true;
     _elements.input.disabled = true;
 
@@ -80,11 +88,13 @@ const main = () => {
     setTimeout(() => {
       _elements.loading.style.display = "none";
       _elements.bsReport.style.display = "block";
-      _elements.bsQuery.style.display = "none";
       _elements.checkBtn.disabled = false;
       _elements.input.disabled = false;
       stopAiQuery();
-    }, 8000);
+    }, 8000)
+
+    
+
   });
 
   _elements.checkAgainBtn.addEventListener("click", () => {
@@ -104,5 +114,7 @@ const main = () => {
       clearInterval(interval);
     };
   };
+
+  
 };
 main();

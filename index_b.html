@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: red;
+            display: none;
+        }
+        .thinking {
+            font-size: 1.2em;
+            color: blue;
+        }
+    </style>
+    <script>
+        function detectBS() {
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('thinking').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('thinking').style.display = 'none';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').textContent = "BS Detected! This is absolute nonsense!";
+            }, 2000);
+        }
+    </script>
+</head>
+<body>
+    <h1>BS Detector</h1>
+    <p>Enter text to detect if it's BS:</p>
+    <input type="text" id="userInput" placeholder="Type something...">
+    <button onclick="detectBS()">Submit</button>
+    <p id="thinking" class="thinking" style="display:none;">Thinking...</p>
+    <p id="result"></p>
+</body>
+</html>

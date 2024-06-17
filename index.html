@@ -1,1 +1,34 @@
-Hello world
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello, World!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 20%;
+      }
+    </style>
+    <meta
+      name="description"
+      content="A simple web app to check if a given text or URL is bullshit or not."
+    />
+    <script src="/main.js" defer></script>
+  </head>
+  <body>
+    <h1>Is this bullshit</h1>
+    <p>
+      Paste anything here, a message from a colleague, a URL, anything text
+      based and we'll use the latest AI techniques to analyse whether this is
+      bullshit or not.
+    </p>
+    <div>
+      <textarea id="input" rows="4" cols="50"></textarea>
+    </div>
+    <div>
+      <button>Check for bullshit</button>
+    </div>
+  </body>
+</html>

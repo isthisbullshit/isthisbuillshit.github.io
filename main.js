@@ -1,9 +1,3 @@
-function stringToHash(string) {
-  return string.split("").reduce((hash, char) => {
-    return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
-  }, 0);
-}
-
 const main = () => {
   const _elements = {
     checkBtn: document.getElementById("check"),
@@ -102,7 +96,6 @@ const main = () => {
 
     _elements.loading.style.display = "block";
     _elements.bsReport.style.display = "none";
-    // _elements.bsQuery.style.display = "none";
     _elements.checkBtn.disabled = true;
     _elements.input.disabled = true;
 

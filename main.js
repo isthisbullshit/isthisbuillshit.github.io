@@ -6,6 +6,9 @@ const main = () => {
     loading: document.getElementById("loading"),
     bsQuery: document.getElementById("bs-query"),
     bsReport: document.getElementById("bs-report"),
+    bsScore: document.getElementById("bs-score"),
+    bsSummary: document.getElementById("bs-summary"),
+    bsFactors: document.getElementById("bs-factors"),
   };
 
   const aiServices = [
@@ -15,6 +18,26 @@ const main = () => {
     "Pinging Elon Musk...",
     "Emailing Bill Gates...",
     "Faxing the 1990s...",
+  ];
+
+  const bsFactors = [
+    "Human Error",
+    "AI Limitations",
+    "Quantum interference",
+    "Murphys Law",
+    "Heisenberg Uncertainty Principle",
+    "Schrodingers Cat",
+    "The Butterfly Effect",
+    "Confirmation Bias",
+    "Anecdotal Evidence",
+    "Fabrication",
+    "Absence of Peer Review",
+    "Memory Distortion",
+    "Instrumentation Errors",
+    "Temporal Confounding",
+    "Propaganda",
+    "Statistical Variability",
+    "Misinterpretation",
   ];
 
   const placeholders = [
@@ -77,10 +100,14 @@ const main = () => {
     _elements.input.disabled = true;
 
     const stopAiQuery = startAiQuery();
+    const { score, summary, factors } = bullshitReport(inputValue);
     setTimeout(() => {
       _elements.loading.style.display = "none";
       _elements.bsReport.style.display = "block";
       _elements.bsQuery.style.display = "none";
+      _elements.bsScore.innerText = score;
+      _elements.bsSummary.innerText = summary;
+      _elements.bsFactors.innerText = factors.join(", ");
       _elements.checkBtn.disabled = false;
       _elements.input.disabled = false;
       stopAiQuery();
@@ -103,6 +130,49 @@ const main = () => {
     return () => {
       clearInterval(interval);
     };
+  };
+
+  const encoder = new TextEncoder();
+  const bullshitReport = (str) => {
+    const uint = encoder.encode(str);
+    let total = 0;
+    uint.forEach((byte) => {
+      total += byte;
+    });
+    const score = total % 100;
+
+    const summary = scoreToSummary(score);
+    const factors = factorsFromScore(score);
+    return { score, summary, factors };
+  };
+
+  const scoreToSummary = (score) => {
+    if (score < 10) {
+      return "Very low bullshit detected";
+    }
+    if (score < 30) {
+      return "Low bullshit detected";
+    }
+    if (score < 60) {
+      return "Medium bullshit detected";
+    }
+    if (score < 80) {
+      return "High bullshit detected, caution advised";
+    }
+    return "Very high bullshit detected, proceed with caution";
+  };
+  const factorsFromScore = (score) => {
+    const factors = [];
+    bsFactors.forEach((factor, i) => {
+      if ((score / (i + 1 * 2.8)) % 2 > 1.7) {
+        factors.push(factor);
+      }
+    });
+    if (factors.length === 0) {
+      factors.push("No factors detected");
+    }
+    // Return only top 3 factors
+    return factors.slice(0, 3);
   };
 };
 main();

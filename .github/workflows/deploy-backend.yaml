@@ -1,5 +1,5 @@
 name: remote ssh command
-on: push
+on: 
   push:
     paths:
       - backend/**

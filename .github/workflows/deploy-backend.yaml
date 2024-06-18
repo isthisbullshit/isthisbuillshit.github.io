@@ -1,4 +1,4 @@
-name: remote ssh command
+name: deploy-backend
 on: 
   push:
     paths:
@@ -13,8 +13,8 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
+        host: ${{ secrets.BACKEND_SSH_HOST }}
+        username: ${{ secrets.BACKEND_SSH_USERNAME }}
+        password: ${{ secrets.BACKEND_SSH_PASSWORD }}
+        port: ${{ secrets.BACKEND_SSH_PORT }}
         script: whoami

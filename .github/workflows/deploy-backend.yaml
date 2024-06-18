@@ -18,4 +18,6 @@ jobs:
         username: ${{ secrets.BACKEND_SSH_USERNAME }}
         password: ${{ secrets.BACKEND_SSH_PASSWORD }}
         port: ${{ secrets.BACKEND_SSH_PORT }}
-        script: whoami
+        script:
+          git clone git@github.com:isthisbullshit/isthisbuillshit.github.io.git
+          cd isthisbuillshit.github.io.git/backend && git pull && make install-prod

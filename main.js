@@ -130,7 +130,12 @@ const main = () => {
       }, 2000);
       return;
     }
-    navigator.share(report).catch((err) => {
+    const shareData = {
+      title: "Bullshit Report",
+      text: "Check out this bullshit report",
+      url: report,
+    };
+    navigator.share(shareData).catch((err) => {
       console.error(err);
     });
   });

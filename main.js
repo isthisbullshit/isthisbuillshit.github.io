@@ -22,13 +22,13 @@ const main = () => {
     "Querying blockchains...",
     "Connecting to Starlink...",
     "Pinging Elon Musk...",
-    "AI is thinking...",
+    "Checking Neuralink...",
   ];
 
   const bsFactors = [
     "Human Error",
     "AI Limitations",
-    "Quantum interference",
+    "Quantum Interference",
     "Murphys Law",
     "Heisenberg Uncertainty Principle",
     "Schrodingers Cat",
@@ -43,6 +43,7 @@ const main = () => {
     "Propaganda",
     "Statistical Variability",
     "Misinterpretation",
+    "Misrepresentation",
   ];
 
   const placeholders = [
@@ -104,14 +105,14 @@ const main = () => {
     _elements.input.disabled = true;
 
     const stopAiQuery = startAiQuery();
-    const { score, summary, factors } = bullshitReport(inputValue);
+    const report = newBullshitRepot(inputValue);
     setTimeout(() => {
       _elements.loading.style.display = "none";
       _elements.bsReport.style.display = "block";
       _elements.bsQuery.style.display = "none";
-      _elements.bsScore.innerText = score;
-      _elements.bsSummary.innerText = summary;
-      _elements.bsFactors.innerText = factors.join(", ");
+      _elements.bsScore.innerText = report.score;
+      _elements.bsSummary.innerText = report.summary;
+      _elements.bsFactors.innerText = report.factors.join(", ");
       _elements.checkBtn.disabled = false;
       _elements.input.disabled = false;
       stopAiQuery();
@@ -141,11 +142,16 @@ const main = () => {
     }
 
     // Fallback to clipboard
+    if (_elements.bsShare.dataset.copied === "true") {
+      return;
+    }
     const btnText = _elements.bsShare.innerText;
     navigator.clipboard.writeText(report);
     _elements.bsShare.innerText = "Copied report!";
+    _elements.bsShare.dataset.copied = "true";
     setTimeout(() => {
       _elements.bsShare.innerText = btnText;
+      _elements.bsShare.dataset.copied = "done";
     }, 2000);
   });
 
@@ -175,7 +181,7 @@ const main = () => {
   };
 
   const encoder = new TextEncoder();
-  const bullshitReport = (str) => {
+  const newBullshitRepot = (str) => {
     const uint = encoder.encode(str);
     let total = 0;
     uint.forEach((byte) => {
@@ -195,10 +201,10 @@ const main = () => {
     if (score < 30) {
       return "Low bullshit detected";
     }
-    if (score < 60) {
+    if (score < 70) {
       return "Medium bullshit detected";
     }
-    if (score < 80) {
+    if (score < 85) {
       return "High bullshit detected, caution advised";
     }
     return "Very high bullshit detected, proceed with caution";
@@ -214,7 +220,6 @@ const main = () => {
     if (factors.length === 0) {
       factors.push("No factors detected");
     }
-    // Return only top 3 factors
     return factors.slice(0, 3);
   };
 

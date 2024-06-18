@@ -1,5 +1,5 @@
 const main = () => {
-  const aiEngineVersion = "v3.14.159";
+  const aiEngineVersion = "v3.14.1592";
   const queryLimitFreeTier = 1500;
 
   const _elements = {

@@ -3,7 +3,7 @@
 
 
 run-server:
-	python -m venv venv
+	/home/amir/.pyenv/shims/python -m venv venv
 	. venv/bin/activate; python -c 'print("i am a little server")'
 
 	

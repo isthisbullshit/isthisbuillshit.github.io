@@ -9,15 +9,16 @@ const main = () => {
     bsScore: document.getElementById("bs-score"),
     bsSummary: document.getElementById("bs-summary"),
     bsFactors: document.getElementById("bs-factors"),
+    bsShare: document.getElementById("bs-share"),
   };
 
   const aiServices = [
     "Checking ChatGPT v5...",
     "Checking Gemini...",
     "Querying blockchains...",
+    "Connecting to Starlink...",
     "Pinging Elon Musk...",
-    "Emailing Bill Gates...",
-    "Faxing the 1990s...",
+    "AI is thinking...",
   ];
 
   const bsFactors = [
@@ -57,8 +58,6 @@ const main = () => {
     "Jokes are real.",
     "Flat earthers are right.",
     "Speed of light is not constant.",
-    "I am your father.",
-    "I am your mother.",
     "The wind is really the trees farting.",
     "Shooting stars are really aliens crashing.",
     "Eating vegetables is bad for you.",
@@ -90,9 +89,8 @@ const main = () => {
       );
       return;
     }
-    const url = new URL(window.location.href);
-    url.searchParams.set("bs-query", inputValue);
-    window.history.pushState({}, "", url);
+
+    setBsUrlQuery(inputValue);
 
     _elements.loading.style.display = "block";
     _elements.bsReport.style.display = "none";
@@ -115,8 +113,26 @@ const main = () => {
   });
 
   _elements.checkAgainBtn.addEventListener("click", () => {
+    setBsUrlQuery("");
+    _elements.input.value = "";
     _elements.bsQuery.style.display = "block";
     _elements.bsReport.style.display = "none";
+  });
+
+  _elements.bsShare.addEventListener("click", () => {
+    const report = window.location.href;
+    if (!navigator.share) {
+      btnText = _elements.bsShare.innerText;
+      navigator.clipboard.writeText(report);
+      _elements.bsShare.innerText = "Copied!";
+      setTimeout(() => {
+        _elements.bsShare.innerText = btnText;
+      }, 2000);
+      return;
+    }
+    navigator.share(report).catch((err) => {
+      console.error(err);
+    });
   });
 
   const startAiQuery = () => {
@@ -130,6 +146,12 @@ const main = () => {
     return () => {
       clearInterval(interval);
     };
+  };
+
+  const setBsUrlQuery = (query) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("bs-query", query);
+    window.history.replaceState({}, "", url);
   };
 
   const encoder = new TextEncoder();

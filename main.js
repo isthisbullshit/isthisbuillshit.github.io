@@ -1,4 +1,7 @@
 const main = () => {
+  const aiEngineVersion = "v3.14.159";
+  const queryLimitFreeTier = 1500;
+
   const _elements = {
     checkBtn: document.getElementById("check"),
     checkAgainBtn: document.getElementById("check-again"),
@@ -10,6 +13,7 @@ const main = () => {
     bsSummary: document.getElementById("bs-summary"),
     bsFactors: document.getElementById("bs-factors"),
     bsShare: document.getElementById("bs-share"),
+    aiVersion: document.getElementById("ai-version"),
   };
 
   const aiServices = [
@@ -67,15 +71,17 @@ const main = () => {
     "The cake is a lie.",
     "We are all living in a simulation.",
   ];
-  const placeholder =
-    placeholders[Math.floor(Math.random() * placeholders.length)];
-  _elements.input.placeholder = `Example: ${placeholder}`;
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const initialBsQuery = urlParams.get("bs-query");
-  if (initialBsQuery) {
-    _elements.input.value = initialBsQuery;
-  }
+  const onInit = () => {
+    _elements.aiVersion.innerText = aiEngineVersion;
+    setRandomPlaceholder();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialBsQuery = urlParams.get("bs-query");
+    if (initialBsQuery) {
+      _elements.input.value = initialBsQuery;
+    }
+  };
 
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
@@ -83,9 +89,9 @@ const main = () => {
       window.alert("You need to enter something to be checked for bullshit");
       return;
     }
-    if (inputValue.length > 1000) {
+    if (inputValue.length > queryLimitFreeTier) {
       window.alert(
-        `Due to AI constraints, on our free tier the bullshit query must be less than 1000 characters (current query characters: ${inputValue.length}).`,
+        `Due to AI constraints, on our free tier the bullshit query must be less than ${queryLimitFreeTier} characters (current query characters: ${inputValue.length}).`,
       );
       return;
     }
@@ -109,10 +115,11 @@ const main = () => {
       _elements.checkBtn.disabled = false;
       _elements.input.disabled = false;
       stopAiQuery();
-    }, 8000);
+    }, 7000);
   });
 
   _elements.checkAgainBtn.addEventListener("click", () => {
+    setRandomPlaceholder();
     setBsUrlQuery("");
     _elements.input.value = "";
     _elements.bsQuery.style.display = "block";
@@ -121,24 +128,32 @@ const main = () => {
 
   _elements.bsShare.addEventListener("click", () => {
     const report = window.location.href;
-    if (!navigator.share) {
-      btnText = _elements.bsShare.innerText;
-      navigator.clipboard.writeText(report);
-      _elements.bsShare.innerText = "Copied!";
-      setTimeout(() => {
-        _elements.bsShare.innerText = btnText;
-      }, 2000);
+    if (navigator.share) {
+      const data = {
+        title: "Bullshit Report",
+        text: "Check out this bullshit report",
+        url: report,
+      };
+      navigator.share(data).catch((err) => {
+        console.error(err);
+      });
       return;
     }
-    const shareData = {
-      title: "Bullshit Report",
-      text: "Check out this bullshit report",
-      url: report,
-    };
-    navigator.share(shareData).catch((err) => {
-      console.error(err);
-    });
+
+    // Fallback to clipboard
+    const btnText = _elements.bsShare.innerText;
+    navigator.clipboard.writeText(report);
+    _elements.bsShare.innerText = "Copied report!";
+    setTimeout(() => {
+      _elements.bsShare.innerText = btnText;
+    }, 2000);
   });
+
+  const setRandomPlaceholder = () => {
+    const placeholder =
+      placeholders[Math.floor(Math.random() * placeholders.length)];
+    _elements.input.placeholder = `Example: ${placeholder}`;
+  };
 
   const startAiQuery = () => {
     let i = 0;
@@ -147,7 +162,7 @@ const main = () => {
     const interval = setInterval(() => {
       i++;
       _elements.loading.innerText = aiServices[i % aiServices.length];
-    }, 1500);
+    }, 1300);
     return () => {
       clearInterval(interval);
     };
@@ -188,6 +203,7 @@ const main = () => {
     }
     return "Very high bullshit detected, proceed with caution";
   };
+
   const factorsFromScore = (score) => {
     const factors = [];
     bsFactors.forEach((factor, i) => {
@@ -201,5 +217,7 @@ const main = () => {
     // Return only top 3 factors
     return factors.slice(0, 3);
   };
+
+  onInit();
 };
 main();

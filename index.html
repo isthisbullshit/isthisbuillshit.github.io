@@ -33,7 +33,7 @@
     <script src="/main.js" defer></script>
   </head>
   <body>
-    <div style="max-width: 70ch; margin: auto">
+    <main style="max-width: 70ch; margin: auto">
       <h1>Is this bullshit</h1>
       <div id="bs-query">
         <p>
@@ -47,15 +47,17 @@
         <div>
           <button id="check" style="margin: 1rem">Check for bullshit</button>
         </div>
-      </div>
-      <div>
-        <p
-          id="loading"
-          class="loading"
-          style="display: none; font-weight: bold"
-        >
-          Checking...
-        </p>
+        <div>
+          <p
+            id="loading"
+            class="loading"
+            style="display: none; font-weight: bold"
+          >
+            Checking...
+          </p>
+        </div>
+
+        <small>Powered by AI engine <span id="ai-version">0.0<span></small>
       </div>
       <div id="bs-report" style="display: none">
         <h2>Bullshit report</h2>
@@ -76,6 +78,6 @@
           actions taken after viewing this report.</small
         >
       </div>
-    </div>
+    </main>
   </body>
 </html>

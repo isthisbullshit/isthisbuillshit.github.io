@@ -19,4 +19,4 @@ jobs:
         password: ${{ secrets.BACKEND_SSH_PASSWORD }}
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script:
-          cd isthisbuillshit.github.io.git/backend && git pull && make install-prod
+          cd ~/isthisbuillshit.github.io/backend && git pull && make install-prod

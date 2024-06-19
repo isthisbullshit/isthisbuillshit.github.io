@@ -1,9 +1,18 @@
-
 .PHONY: run-server
 
+install-server-locally:
+	rm -rf venv venv
+	python -m venv venv
+	. venv/bin/activate; pip install -r requirements.locked.txt
 
-run-server:
-	/home/amir/.pyenv/shims/python -m venv venv
-	. venv/bin/activate; python -c 'print("i am a little server")'
+run-server-debug:
+	. venv/bin/activate; fastapi dev main.py
 
-	
+run-server-prod:
+	. venv/bin/activate; gunicorn main:app --workers 4 --bind 0.0.0.0:80
+
+pip-lock-from-fresh:
+	rm -rf venv venv
+	python -m venv venv
+	. venv/bin/activate; pip install -r requirements.txt
+	. venv/bin/activate; pip freeze > requirements.locked.txt

@@ -9,7 +9,7 @@ run-server-debug:
 	. venv/bin/activate; fastapi dev main.py
 
 run-server-prod:
-	. venv/bin/activate; gunicorn main:app --workers 4 --bind 0.0.0.0:80
+	. venv/bin/activate; tmux new-session -d 'gunicorn main:app --workers 4 --bind 0.0.0.0:80'
 
 pip-lock-from-fresh:
 	rm -rf venv venv

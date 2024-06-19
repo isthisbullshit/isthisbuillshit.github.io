@@ -19,4 +19,7 @@ jobs:
         key: ${{ secrets.BACKEND_SSH_KEY }}
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script:
-          cd ~/isthisbuillshit.github.io/backend && git pull && make install-server-locally
+          cd ~/isthisbuillshit.github.io/backend
+          git pull
+          make install-server-locally
+          make run-server-prod

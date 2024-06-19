@@ -10,7 +10,7 @@ run-server-debug:
 
 run-server-prod:
 	pkill gunicorn
-	tmux new-session -d 'launchprod.sh'
+	. venv/bin/activate; gunicorn main:app --workers 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 
 pip-lock-from-fresh:
 	rm -rf venv venv

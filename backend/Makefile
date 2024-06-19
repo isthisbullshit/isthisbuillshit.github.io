@@ -9,7 +9,7 @@ run-server-debug:
 	. venv/bin/activate; fastapi dev main.py
 
 run-server-prod:
-	pkill gunicorn
+	-pkill gunicorn
 	. venv/bin/activate; gunicorn main:app --workers 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
 
 pip-lock-from-fresh:

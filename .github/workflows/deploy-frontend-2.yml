@@ -1,11 +1,11 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy static content to digital ocean
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-    paths
+    paths:
       - .github/workflows/deploy-frontend-2.yaml
       - frontend/**
   

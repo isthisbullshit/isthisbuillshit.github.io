@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - .github/workflows/deploy-backend.yaml
       - backend/**
+      - frontend/**
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

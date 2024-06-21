@@ -1,0 +1,57 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+    paths
+      - .github/workflows/deploy-frontend-2.yaml
+      - frontend/**
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "frontend-2"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: tar files
+        run: |
+          tar czf frontend.tar.gz frontend
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.BACKEND_SSH_HOST }}
+          username: ${{ secrets.BACKEND_SSH_USERNAME }}
+          key: ${{ secrets.BACKEND_SSH_KEY }}
+          port: ${{ secrets.BACKEND_SSH_PORT }}
+          source: frontend.tar.gz
+          target: frontend.tar.gz
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.BACKEND_SSH_HOST }}
+          username: ${{ secrets.BACKEND_SSH_USERNAME }}
+          key: ${{ secrets.BACKEND_SSH_KEY }}
+          port: ${{ secrets.BACKEND_SSH_PORT }}
+          script: |
+            tar -xvzf frontend.tar.gz
+            
+

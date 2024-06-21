@@ -30,7 +30,7 @@ jobs:
           key: ${{ secrets.BACKEND_SSH_KEY }}
           port: ${{ secrets.BACKEND_SSH_PORT }}
           source: frontend.tar.gz
-          target: ~/
+          target: /
 
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.0.3
@@ -40,7 +40,9 @@ jobs:
           key: ${{ secrets.BACKEND_SSH_KEY }}
           port: ${{ secrets.BACKEND_SSH_PORT }}
           script: |
-            rm frontend -rf
-            tar -xvzf ~/frontend.tar.gz
-            rm frontend.tar.gz
+            rm /frontend -rf
+            cd / && tar -xvzf /frontend.tar.gz
+            rm /frontend.tar.gz
+            chown -R www-data:www-data /frontend
+
 

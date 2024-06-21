@@ -42,5 +42,5 @@ jobs:
           script: |
             rm frontend -rf
             tar -xvzf ~/frontend.tar.gz
-            
+            rm frontend.tar.gz
 

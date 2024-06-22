@@ -73,6 +73,12 @@ const main = () => {
     "We are all living in a simulation.",
   ];
 
+  const event = {
+    view: "page-view",
+    query: "bs-query",
+    share: "bs-share",
+  };
+
   const onInit = () => {
     _elements.aiVersion.innerText = aiEngineVersion;
     setRandomPlaceholder();
@@ -82,6 +88,7 @@ const main = () => {
     if (initialBsQuery) {
       _elements.input.value = initialBsQuery;
     }
+    bsTrack(event.view, initialBsQuery);
   };
 
   _elements.checkBtn.addEventListener("click", () => {
@@ -106,6 +113,8 @@ const main = () => {
 
     const stopAiQuery = startAiQuery();
     const report = newBullshitRepot(inputValue);
+    bsTrack(event.query, { query: inputValue, report });
+
     setTimeout(() => {
       _elements.loading.style.display = "none";
       _elements.bsReport.style.display = "block";
@@ -128,6 +137,7 @@ const main = () => {
   });
 
   _elements.bsShare.addEventListener("click", () => {
+    bsTrack(event.share);
     const report = window.location.href;
     if (navigator.share) {
       const data = {
@@ -221,6 +231,32 @@ const main = () => {
       factors.push("No factors detected");
     }
     return factors.slice(0, 3);
+  };
+
+  const bsTrack = (event, data) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    const body = {
+      type: event,
+      data: data ?? null,
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+      redirect: "follow",
+    };
+
+    // When ready, remove the log and uncomment the fetch request, checking the URL is correct! >>>
+    console.log("Would have tracked:", body);
+    // So would post to https://api.isthisbullsh.it/metrics
+    // fetch(`https://api.${window.location.host}/metrics`, requestOptions).catch(
+    //   (err) => {
+    //     console.warn(err);
+    //   },
+    // );
   };
 
   onInit();

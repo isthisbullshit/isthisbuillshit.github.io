@@ -233,14 +233,13 @@ const main = () => {
     });
 
     var requestOptions = {
-      url: "bullshitAI",
       method: 'POST',
       headers: myHeaders,
       body: raw,
+      redirect: 'follow'
     };
-    console.log("I am here")
 
-    fetch( requestOptions)
+    fetch("/api/bullshitAI", requestOptions)
   }
 
   onInit();

@@ -40,12 +40,12 @@ async def health():
 
 
 @app.post("/metrics")
-async def bullshitAI(bs: Bullshit, request: Request, user_agent: Annotated[str | None, Header()] = None, cookie: Optional[str] = Cookie(None)):
+async def bullshitAI(request: Request, cookie: Optional[str] = Cookie(None)):
     if cookie is None:
         cookie = str(uuid.uuid4())
 
     with open(f"data/{datetime.now().timestamp()}{cookie}", 'w') as fp:
-        fp.write(f"{str(bs)} \n\n {request.client.host} \n\n {user_agent}")
+        fp.write(f"{request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']}")
 
     response = JSONResponse(content={"message": "Great BS"})
     response.set_cookie(key="session", value=cookie)

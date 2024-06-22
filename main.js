@@ -234,6 +234,7 @@ const main = () => {
   };
 
   const bsTrack = (event, data) => {
+    const apiUrl = `${window.location.protocol}//api.${window.location.host}/metrics`;
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
@@ -249,14 +250,12 @@ const main = () => {
       redirect: "follow",
     };
 
-    // When ready, remove the log and uncomment the fetch request, checking the URL is correct! >>>
+    // When ready, remove the log and return and the fetch request will start - checking the URL is correct! >>>
     console.log("Would have tracked:", body);
-    // So would post to https://api.isthisbullsh.it/metrics
-    // fetch(`https://api.${window.location.host}/metrics`, requestOptions).catch(
-    //   (err) => {
-    //     console.warn(err);
-    //   },
-    // );
+    // return;
+    fetch(apiUrl, requestOptions).catch((err) => {
+      console.warn(err);
+    });
   };
 
   onInit();

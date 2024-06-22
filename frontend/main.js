@@ -73,6 +73,12 @@ const main = () => {
     "We are all living in a simulation.",
   ];
 
+  const event = {
+    view: "page-view",
+    query: "bs-query",
+    share: "bs-share",
+  };
+
   const onInit = () => {
     _elements.aiVersion.innerText = aiEngineVersion;
     setRandomPlaceholder();
@@ -82,11 +88,11 @@ const main = () => {
     if (initialBsQuery) {
       _elements.input.value = initialBsQuery;
     }
+    bsTrack(event.view, initialBsQuery);
   };
 
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
-    logRequest(inputValue)
     if (inputValue === "") {
       window.alert("You need to enter something to be checked for bullshit");
       return;
@@ -107,6 +113,8 @@ const main = () => {
 
     const stopAiQuery = startAiQuery();
     const report = newBullshitRepot(inputValue);
+    bsTrack(event.query, { query: inputValue, report });
+
     setTimeout(() => {
       _elements.loading.style.display = "none";
       _elements.bsReport.style.display = "block";
@@ -129,6 +137,7 @@ const main = () => {
   });
 
   _elements.bsShare.addEventListener("click", () => {
+    bsTrack(event.share);
     const report = window.location.href;
     if (navigator.share) {
       const data = {
@@ -224,23 +233,26 @@ const main = () => {
     return factors.slice(0, 3);
   };
 
-  const logRequest = (inputValue) =>{
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  const bsTrack = (event, data) => {
+    const apiUrl = `${window.location.protocol}//api.${window.location.host}/metrics`;
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      "text": inputValue
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
+    const body = {
+      type: event,
+      data: data ?? null,
     };
 
-    fetch("/api/bullshitAI", requestOptions)
-  }
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+    };
+
+    fetch(apiUrl, requestOptions).catch((err) => {
+      console.warn(err);
+    });
+  };
 
   onInit();
 };

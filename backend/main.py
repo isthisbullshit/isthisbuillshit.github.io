@@ -13,6 +13,8 @@ Path("data").mkdir(parents=True, exist_ok=True)
 class Bullshit(BaseModel):
     text: str
 
+secret_key = "supersecretkey"
+signer = Signer(secret_key)
 
 app = FastAPI()
 
@@ -50,5 +52,5 @@ async def bullshitAI(request: Request, cookie: Optional[str] = Cookie(None)):
     response = JSONResponse(content={"message": "Great BS"})
     response.set_cookie(key="session", value=cookie)
 
-    return {"I am good. Thank you!"}
+    return response
 

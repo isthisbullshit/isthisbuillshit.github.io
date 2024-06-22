@@ -14,6 +14,7 @@ const main = () => {
     bsFactors: document.getElementById("bs-factors"),
     bsShare: document.getElementById("bs-share"),
     bsCertify: document.getElementById("bs-certify"),
+    bsExonerate: document.getElementById("bs-exonerate"),
     aiVersion: document.getElementById("ai-version"),
   };
 
@@ -79,6 +80,7 @@ const main = () => {
     query: "bs-query",
     share: "bs-share",
     certify: "bs-certify",
+    exonerate: "bs-exonerate",
     emptyRequest: "bs-empty",
     limitFreeTier: "bs-limitFreeTier",
   };
@@ -173,6 +175,12 @@ const main = () => {
 
   _elements.bsCertify.addEventListener("click", () => {
     bsTrack(event.certify);
+    window.alert("This specific Bullshit has been CERTIFIED, thank you for your cooperation");
+  });
+
+  _elements.bsExonerate.addEventListener("click", () => {
+    bsTrack(event.exonerate);
+    window.alert("This specific Bullshit has been EXONERATED, thank you for your cooperation");
   });
 
   const setRandomPlaceholder = () => {

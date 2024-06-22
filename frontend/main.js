@@ -13,6 +13,7 @@ const main = () => {
     bsSummary: document.getElementById("bs-summary"),
     bsFactors: document.getElementById("bs-factors"),
     bsShare: document.getElementById("bs-share"),
+    bsCertify: document.getElementById("bs-certify"),
     aiVersion: document.getElementById("ai-version"),
   };
 
@@ -77,6 +78,9 @@ const main = () => {
     view: "page-view",
     query: "bs-query",
     share: "bs-share",
+    certify: "bs-certify",
+    emptyRequest: "bs-empty",
+    limitFreeTier: "bs-limitFreeTier",
   };
 
   const onInit = () => {
@@ -94,10 +98,12 @@ const main = () => {
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
     if (inputValue === "") {
+      bsTrack(event.emptyRequest);
       window.alert("You need to enter something to be checked for bullshit");
       return;
     }
     if (inputValue.length > queryLimitFreeTier) {
+      bsTrack(event.limitFreeTier);
       window.alert(
         `Due to AI constraints, on our free tier the bullshit query must be less than ${queryLimitFreeTier} characters (current query characters: ${inputValue.length}).`,
       );
@@ -163,6 +169,10 @@ const main = () => {
       _elements.bsShare.innerText = btnText;
       _elements.bsShare.dataset.copied = "done";
     }, 2000);
+  });
+
+  _elements.bsCertify.addEventListener("click", () => {
+    bsTrack(event.certify);
   });
 
   const setRandomPlaceholder = () => {

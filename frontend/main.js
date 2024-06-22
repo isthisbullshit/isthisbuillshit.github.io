@@ -265,6 +265,7 @@ const main = () => {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body),
+      credentials: "include",
     };
 
     fetch(apiUrl, requestOptions).catch((err) => {

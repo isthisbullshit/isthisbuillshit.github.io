@@ -86,6 +86,7 @@ const main = () => {
 
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
+    logRequest(inputValue)
     if (inputValue === "") {
       window.alert("You need to enter something to be checked for bullshit");
       return;
@@ -222,6 +223,24 @@ const main = () => {
     }
     return factors.slice(0, 3);
   };
+
+  const logRequest = (inputValue) =>{
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "text": inputValue
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://api.isthisbullsh.it/api/bullshitAI", requestOptions)
+  }
 
   onInit();
 };

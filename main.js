@@ -247,12 +247,8 @@ const main = () => {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body),
-      redirect: "follow",
     };
 
-    // When ready, remove the log and return and the fetch request will start - checking the URL is correct! >>>
-    console.log("Would have tracked:", body);
-    // return;
     fetch(apiUrl, requestOptions).catch((err) => {
       console.warn(err);
     });

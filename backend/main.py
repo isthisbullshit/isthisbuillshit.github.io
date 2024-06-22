@@ -13,9 +13,6 @@ Path("data").mkdir(parents=True, exist_ok=True)
 class Bullshit(BaseModel):
     text: str
 
-secret_key = "supersecretkey"
-signer = Signer(secret_key)
-
 app = FastAPI()
 
 origins = [

@@ -40,7 +40,7 @@ async def health():
     return {"I am good. Thank you!"}
 
 
-@app.post("/metric")
+@app.post("/metrics")
 async def bullshitAI(bs: Bullshit, request: Request, user_agent: Annotated[str | None, Header()] = None, cookie: Optional[str] = Cookie(None)):
     if cookie is None:
         cookie = str(uuid.uuid4())

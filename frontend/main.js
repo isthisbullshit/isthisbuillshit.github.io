@@ -233,13 +233,14 @@ const main = () => {
     });
 
     var requestOptions = {
+      url: "bullshitAI",
       method: 'POST',
       headers: myHeaders,
       body: raw,
     };
     console.log("I am here")
 
-    fetch("http://api.isthisbullsh.it/bullshitAI", requestOptions)
+    fetch( requestOptions)
   }
 
   onInit();

@@ -39,7 +39,9 @@ async def health():
 
 
 @app.post("/metrics")
-async def bullshitAI(request: Request, cookie: Optional[str] = Cookie(None)):
+async def bullshitAI(request: Request):
+    cookie = request.cookies.get('session')
+    print(cookie)
     if cookie is None:
         cookie = str(uuid.uuid4())
 

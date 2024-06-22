@@ -46,7 +46,7 @@ async def bullshitAI(request: Request):
         cookie = str(uuid.uuid4())
 
     with open(f"data/{datetime.now().timestamp()}{cookie}", 'w') as fp:
-        fp.write(f"{await request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']} \n\n {request.headers}")
+        fp.write(f"{await request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']} \n\n {request.headers['x-forwarded-for']}")
 
     response = JSONResponse(content={"message": "Great BS"})
     response.set_cookie(key="session", value=cookie)

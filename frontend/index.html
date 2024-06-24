@@ -8,32 +8,11 @@
       name="description"
       content="Powered by AI on the Edge, we can tell you if something is bullshit or not."
     />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin-top: 15%;
-        background-color: #333;
-        color: white;
-        background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b2b2b2' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      }
-      @media screen and (prefers-color-scheme: light) {
-        body {
-          background-color: #eee;
-          color: black;
-        }
-      }
-      button {
-        margin: 1rem;
-        padding: 0.3rem;
-        font-size: 1rem;
-        cursor: pointer;
-      }
-    </style>
+    <link rel="stylesheet" href="/main.css" />
     <script src="/main.js" defer></script>
   </head>
   <body>
-    <main style="max-width: 70ch; margin: auto">
+    <main>
       <h1>Is this bullshit</h1>
       <div id="bs-query">
         <p>
@@ -57,7 +36,7 @@
           </p>
         </div>
 
-        <small>Powered by AI engine <span id="ai-version">0.0<span></small>
+        <small>Powered by AI engine <span id="ai-version">0.0</span></small>
       </div>
       <div id="bs-report" style="display: none">
         <h2>Bullshit report</h2>

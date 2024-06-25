@@ -1,6 +1,6 @@
 :root {
-  --dark-primary: #222;
-  --light-primary: #eee;
+  --dark-primary: #191324;
+  --light-primary: #efeefb;
   --bg-color: var(--dark-primary);
   --text-color: var(--light-primary);
   --border-color: var(--light-primary);

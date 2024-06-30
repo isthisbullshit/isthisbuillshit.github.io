@@ -185,7 +185,7 @@ const main = () => {
     bsTrack(event.certify);
     const url = new URL(window.location.href);
     url.searchParams.set("bs-verdict","true-face");
-    url.pathname = url.pathname.replace("/index.html","/verdict.html")
+    url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"),"/verdict.html")
     window.location.href = url.href;
   });
 

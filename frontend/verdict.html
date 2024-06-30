@@ -51,7 +51,7 @@
             }
         }
 
-        .is-approved {
+        .is-true {
             color: #0A9928;
             border: 0.5rem solid #0A9928;
             -webkit-mask-position: 13rem 6rem;
@@ -74,23 +74,22 @@
             background: none;
             display: flex;
         }
-
     </style>
+    <script src="/verdict.js" defer></script>
 </head>
 <body>
 <main>
 
-    <h1>this is bullshit</h1>
-    <div class="the-bullshit"> the bullshit goes here </div>
+    <h1>is this bullshit</h1>
+
+    <div id="the-bullshit">  </div>
 
     <div class="container">
-        <div class="stamp is-nope">Certified <br/> Bullshit</div>
+        <div class="stamp is-nope" id="certified-bs-stamp">Certified <br/> Bullshit</div>
+        <div class="stamp is-true" id="true-fact-stamp" >True <br/> Fact</div>
     </div>
     <br>
-    <br>
-    <br>
-    <br>
-    <small> some random bullshitter really wants you to know that this is bullshit! </small>
+    <small> This may or may not affect the quality of the subsequent queries </small>
 
 
 </main>

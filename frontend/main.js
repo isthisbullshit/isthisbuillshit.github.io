@@ -175,12 +175,18 @@ const main = () => {
 
   _elements.bsCertify.addEventListener("click", () => {
     bsTrack(event.certify);
-    window.alert("This specific Bullshit has been CERTIFIED, thank you for your cooperation");
+    const url = new URL(window.location.href);
+    url.searchParams.set("bs-verdict","certified-bs");
+    url.pathname = url.pathname.replace("/index.html","/verdict.html")
+    window.location.href = url.href;
   });
 
   _elements.bsExonerate.addEventListener("click", () => {
-    bsTrack(event.exonerate);
-    window.alert("This specific Bullshit has been EXONERATED, thank you for your cooperation");
+    bsTrack(event.certify);
+    const url = new URL(window.location.href);
+    url.searchParams.set("bs-verdict","true-face");
+    url.pathname = url.pathname.replace("/index.html","/verdict.html")
+    window.location.href = url.href;
   });
 
   const setRandomPlaceholder = () => {

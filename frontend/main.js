@@ -173,20 +173,20 @@ const main = () => {
     }, 2000);
   });
 
-  _elements.bsCertify.addEventListener("click", () => {
-    bsTrack(event.certify);
+  function setVerdict(verdictEvent) {
+    bsTrack(verdictEvent, {query: url.searchParams.get("bs-query")});
     const url = new URL(window.location.href);
-    url.searchParams.set("bs-verdict","certified-bs");
-    url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"),"/verdict.html")
+    url.searchParams.set("bs-verdict", verdictEvent);
+    url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"), "/verdict.html")
     window.location.href = url.href;
+  }
+
+  _elements.bsCertify.addEventListener("click", () => {
+    setVerdict(event.certify);
   });
 
   _elements.bsExonerate.addEventListener("click", () => {
-    bsTrack(event.certify);
-    const url = new URL(window.location.href);
-    url.searchParams.set("bs-verdict","true-face");
-    url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"),"/verdict.html")
-    window.location.href = url.href;
+    setVerdict(event.exonerate);
   });
 
   const setRandomPlaceholder = () => {

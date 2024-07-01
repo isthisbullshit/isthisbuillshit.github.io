@@ -17,9 +17,9 @@ const main = () => {
     }
 
     const bsVerdict = urlParams.get("bs-verdict")
-    if (bsVerdict && bsVerdict === "certified-bs"){
+    if (bsVerdict && bsVerdict === "bs-certify"){
       _elements.true_fact_stamp.style.display = "none"
-    } else if (bsVerdict && bsVerdict === "true-fact"){
+    } else if (bsVerdict && bsVerdict === "bs-exonerate"){
       _elements.certified_bs_stamp.style.display = "none"
     } else{
       _elements.certified_bs_stamp.style.display = "none"

@@ -174,8 +174,8 @@ const main = () => {
   });
 
   function setVerdict(verdictEvent) {
-    bsTrack(verdictEvent, {query: url.searchParams.get("bs-query")});
     const url = new URL(window.location.href);
+    bsTrack(verdictEvent, {query: url.searchParams.get("bs-query")});
     url.searchParams.set("bs-verdict", verdictEvent);
     url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"), "/verdict.html")
     window.location.href = url.href;

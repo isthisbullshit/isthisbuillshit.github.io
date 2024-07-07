@@ -3,6 +3,7 @@ const main = () => {
     the_bullshit: document.getElementById("the-bullshit"),
     true_fact_stamp: document.getElementById("true-fact-stamp"),
     certified_bs_stamp: document.getElementById("certified-bs-stamp"),
+    date: document.getElementById("date"),
   };
 
   const event = {
@@ -18,13 +19,12 @@ const main = () => {
 
     const bsVerdict = urlParams.get("bs-verdict")
     if (bsVerdict && bsVerdict === "bs-certify"){
-      _elements.true_fact_stamp.style.display = "none"
+      _elements.certified_bs_stamp.style.display = "block"
     } else if (bsVerdict && bsVerdict === "bs-exonerate"){
-      _elements.certified_bs_stamp.style.display = "none"
-    } else{
-      _elements.certified_bs_stamp.style.display = "none"
-      _elements.true_fact_stamp.style.display = "none"
+      _elements.true_fact_stamp.style.display = "block"
     }
+
+    _elements.date.innerText = new Date().toDateString(options={ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
     bsTrack(event.view, initialBsQuery);
   };

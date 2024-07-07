@@ -9,6 +9,7 @@
             content="Powered by AI on the Edge, we can tell you if something is bullshit or not."
     />
     <link rel="stylesheet" href="/main.css" />
+
     <style>
         .stamp {
             transform: rotate(12deg);
@@ -23,6 +24,12 @@
             font-family: 'Courier', serif;
             -webkit-mask-image: url('grunge.png');
             mix-blend-mode: multiply;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #191324;
+            }
         }
 
         .is-true {

@@ -4,6 +4,7 @@ const main = () => {
     true_fact_stamp: document.getElementById("true-fact-stamp"),
     certified_bs_stamp: document.getElementById("certified-bs-stamp"),
     date: document.getElementById("date"),
+    verdict_text: document.getElementById("verdict-text"),
   };
 
   const event = {
@@ -20,8 +21,10 @@ const main = () => {
     const bsVerdict = urlParams.get("bs-verdict")
     if (bsVerdict && bsVerdict === "bs-certify"){
       _elements.certified_bs_stamp.style.display = "block"
+      _elements.verdict_text.innerText = "BULLSHIT"
     } else if (bsVerdict && bsVerdict === "bs-exonerate"){
       _elements.true_fact_stamp.style.display = "block"
+      _elements.verdict_text.innerText = "TRUE FACT"
     }
 
     _elements.date.innerText = new Date().toDateString(options={ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });

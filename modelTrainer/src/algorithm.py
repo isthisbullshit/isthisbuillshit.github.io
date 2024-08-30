@@ -1,3 +1,9 @@
+import numpy as np
+from transformers import pipeline
+import xgboost
+import os
+
+
 class Accuracy():
 
     def measure(self, predictions, labels):
@@ -72,7 +78,7 @@ assert np.array_equal(PipelineAveragingEmbeddingExtractor(None).aggregate(embedd
 
 
 class Algorithm:
-    def __init__(self, embedding_extractor, classifier):
+    def __init__(self, embedding_extractor: PipelineAveragingEmbeddingExtractor, classifier):
         self.embedding_extractor = embedding_extractor
         self.classifier = classifier
 
@@ -90,10 +96,25 @@ class Algorithm:
         if isinstance(self.classifier, xgboost.XGBClassifier):
             self.classifier.save_model(f"{directory}/classifier_xgboost.ubj")
 
-
 def runExperiment(algorithm, dataset, metrics):
     algorithm.train(dataset.train_inputs(), dataset.train_labels())
     predictions = algorithm.predict(dataset.test_inputs())
     # print(list(zip(dataset.test_inputs(), predictions, dataset.test_labels())))
     print(f"accuracy is {metrics.measure(predictions, dataset.test_labels())}")
 
+def load_embedding_extractor_from_directory(directory):
+    pass
+
+def load_classifier_from_directory(directory):
+    pass
+
+def load_embedding_extractor(directory) -> PipelineAveragingEmbeddingExtractor:
+    return PipelineAveragingEmbeddingExtractor(pipeline("feature-extraction",directory))
+
+def load_algorithm_from_directory(directory):
+    extractor_directory = f"{directory}/extractor"
+    extractor = load_embedding_extractor(extractor_directory)
+    classifier = xgboost.XGBClassifier()
+    classifier.load_model(f"{directory}/classifier_xgboost.ubj")
+    return Algorithm(extractor, classifier)
+        

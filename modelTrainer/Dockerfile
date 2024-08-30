@@ -1,6 +1,6 @@
 FROM pytorch/pytorch
 
-RUN pip install transformers torch accelerate bitsandbytes xgboost scikit-learn
+RUN pip install transformers torch accelerate bitsandbytes xgboost scikit-learn numpy
 RUN pip install fastapi
 
 WORKDIR /app

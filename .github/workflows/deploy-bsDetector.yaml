@@ -18,6 +18,18 @@ jobs:
         run: |
           cd bsDetector
           docker build . -t bsdetector:latest
+          docker save bsdetector:latest > gzip > bsdetector.tar.gz
+      
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.BACKEND_SSH_HOST }}
+          username: ${{ secrets.BACKEND_SSH_USERNAME }}
+          key: ${{ secrets.BACKEND_SSH_KEY }}
+          port: ${{ secrets.BACKEND_SSH_PORT }}
+          source: bsdetector.tar.gz
+          target: /deployments/bsdetector/bsdetector.tar.gz
+      
 
           
 

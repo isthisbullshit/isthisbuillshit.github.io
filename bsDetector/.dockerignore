@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!/src/
+!/requirements/
+!/entrypoint.sh
+!/model/
+
+venv/
+.env
+.gitignore
+.ipynb_checkpoints

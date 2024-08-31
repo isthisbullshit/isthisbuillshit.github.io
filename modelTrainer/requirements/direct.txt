@@ -1,9 +1,0 @@
-transformers
-torch
-accelerate
-bitsandbytes
-xgboost
-scikit-learn
-numpy
-uvicorn
-fastapi

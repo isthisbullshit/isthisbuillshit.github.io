@@ -19,9 +19,10 @@ jobs:
         key: ${{ secrets.BACKEND_SSH_KEY }}
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script: |
-          cd ~/isthisbuillshit.github.io/backend
+          cd ~/isthisbuillshit.github.io
           git pull
+          cd ~/isthisbuillshit.github.io/backend
           make install-server-locally
-          tmux kill-session -t backend
+          -tmux kill-session -t backend
           tmux new -s backend -d 'make run-server-prod'
           

@@ -19,7 +19,7 @@ jobs:
         key: ${{ secrets.BACKEND_SSH_KEY }}
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script: |
-          cd ~/isthisbuillshit.github.io/bsDetector.yaml
+          cd ~/isthisbuillshit.github.io/bsDetector
           git pull
           make install-server-locally
           tmux new-session -d 'make run-server-prod'

@@ -22,5 +22,6 @@ jobs:
           cd ~/isthisbuillshit.github.io/backend
           git pull
           make install-server-locally
-          tmux new-session -d 'make run-server-prod'
+          tmux kill-session -t backend
+          tmux new -s backend -d 'make run-server-prod'
           

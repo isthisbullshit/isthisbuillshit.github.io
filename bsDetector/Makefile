@@ -9,7 +9,6 @@ run-server-debug:
 	. venv/bin/activate; PYTHONPATH=$(CURDIR)/src fastapi dev src/main.py
 
 run-server-prod:
-	-pkill uvicorn
 	. venv/bin/activate; PYTHONPATH=$(CURDIR)/src uvicorn main:app --port 8001
 
 lock-requirements-from-fresh:

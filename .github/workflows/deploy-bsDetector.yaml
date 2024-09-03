@@ -24,4 +24,4 @@ jobs:
           cd ~/isthisbuillshit.github.io/bsDetector
           make install-server-locally
           tmux kill-session -t bsDetector || true
-          tmux new-session -d 'make run-server-prod' -s bsDetector
+          tmux new-session -s bsDetector -d 'make run-server-prod'

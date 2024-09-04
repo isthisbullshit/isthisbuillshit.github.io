@@ -17,7 +17,7 @@ jobs:
           mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.BACKEND_SSH_HOST }} >> ~/.ssh/known_hosts
           eval $(ssh-agent)
-          ssh -M -S server-socket -fnNT -L 5000:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
+          echo "${{ secrets.BACKEND_SSH_KEY }}" | ssh -M -S server-socket -fnNT -L 5000:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and push

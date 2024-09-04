@@ -14,8 +14,11 @@ jobs:
         uses: actions/checkout@v4
       - name: setup ssh connection
         run: |
-          echo "${{ secrets.BACKEND_SSH_KEY }}" > $(pwd)/private_key 
+          echo "${{ secrets.BACKEND_SSH_KEY }}" > $(pwd)/private_key
+          chmod 600 $(pwd)/private_key
           ssh -vvvvv -o "IdentitiesOnly=yes" -i $(pwd)/private_key -o 'StrictHostKeyChecking=no' -o 'UpdateHostKeys=no' -M -S server-socket -fnNT -L 5000:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
+      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and push

@@ -17,6 +17,7 @@ jobs:
           echo "${{ secrets.BACKEND_SSH_KEY }}" > $(pwd)/private_key
           chmod 600 $(pwd)/private_key
           ssh -vvvvv -o "IdentitiesOnly=yes" -i $(pwd)/private_key -o 'StrictHostKeyChecking=no' -o 'UpdateHostKeys=no' -M -S server-socket -fnNT -L 12347:${{ secrets.BACKEND_SSH_HOST }}:12347 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
+          ls
           docker build . -t localhost:12347/bs-detector
           ssh -S server-socket -O exit ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
       - name: Set up Docker Buildx

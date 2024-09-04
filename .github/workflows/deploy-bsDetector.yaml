@@ -18,8 +18,8 @@ jobs:
           mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.BACKEND_SSH_HOST }} >> ~/.ssh/known_hosts
           eval $(ssh-agent)
-          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
-          echo "${{ secrets.BACKEND_SSH_KEY }}" 
+          ssh-add - <<< "${{ secrets.BACKEND_SSH_KEY }}"
+#          echo "${{ secrets.BACKEND_SSH_KEY }}"
           ssh -M -S server-socket -fnNT -L 5000:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
           sleep 5          
           ssh -S server-socket -O exit ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}

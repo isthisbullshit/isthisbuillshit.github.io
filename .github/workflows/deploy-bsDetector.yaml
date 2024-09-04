@@ -11,17 +11,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.BACKEND_SSH_HOST }}
-        username: ${{ secrets.BACKEND_SSH_USERNAME }}
-        key: ${{ secrets.BACKEND_SSH_KEY }}
-        port: ${{ secrets.BACKEND_SSH_PORT }}
-        script: |
-          cd ~/isthisbuillshit.github.io
-          git pull
-          cd ~/isthisbuillshit.github.io/bsDetector
-          make install-server-locally
-          tmux kill-session -t bsDetector || true
-          tmux new-session -s bsDetector -d 'make run-server-prod'
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: build docker image
+        run:
+          cd bsDetector && docker build . -t localhost:5000/bsDetector
+      - name: upload docker image
+        run:
+          echo ${{ secrets.BACKEND_SSH_KEY }} | ssh -M -S server-socket -fnNT -L 5000:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
+          docker push localhost:5000/bsDetector
+          ssh -S server-socket -O exit ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}

@@ -27,8 +27,10 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           file: Dockerfile
-          push: true
+          push: false
           tags: 127.0.0.1:12346/bs-detector-2
+      - name: push number2
+        run: docker push 127.0.0.1:12346/bs-detector-2
       - name: teardown
         if: always()
         run: |

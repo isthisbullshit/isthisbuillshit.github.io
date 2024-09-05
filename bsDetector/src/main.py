@@ -1,3 +1,6 @@
+import json
+
+import numpy
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -14,5 +17,5 @@ class Query(BaseModel):
     text: str
 @app.post("/")
 async def bs_predictor(query: Query):
-    t = algorithm.predict([query.text])
-    return f"{t}"
+    bs_score : numpy.ndarray = algorithm.predict([query.text])
+    return {"bs_score": bs_score.tolist()}

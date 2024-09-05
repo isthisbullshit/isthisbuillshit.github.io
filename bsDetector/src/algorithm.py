@@ -98,9 +98,13 @@ class Algorithm:
 
 def runExperiment(algorithm, dataset, metrics):
     algorithm.train(dataset.train_inputs(), dataset.train_labels())
+    measureQuality(algorithm, dataset, metrics)
+
+
+def measureQuality(algorithm, dataset, metrics):
     predictions = algorithm.predict(dataset.test_inputs())
-    # print(list(zip(dataset.test_inputs(), predictions, dataset.test_labels())))
     print(f"accuracy is {metrics.measure(predictions, dataset.test_labels())}")
+
 
 def load_embedding_extractor_from_directory(directory):
     pass

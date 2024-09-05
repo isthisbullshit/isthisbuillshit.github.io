@@ -13,5 +13,9 @@ smolLM_135_pipeline = transformers.pipeline(
 
 theXGboostEmbeddingExtractorAlgorithm = algorithm.Algorithm(algorithm.PipelineAveragingEmbeddingExtractor(smolLM_135_pipeline), xgboost.XGBClassifier())
 algorithm.runExperiment(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())
+algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())
 
 theXGboostEmbeddingExtractorAlgorithm.save_to_directory("model")
+
+t = algorithm.load_algorithm_from_directory("model")
+algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())

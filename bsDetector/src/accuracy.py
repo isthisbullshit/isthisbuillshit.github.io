@@ -3,7 +3,7 @@ class Accuracy():
     def measure(self, predictions, labels):
         correct = 0
         for prediction, label in zip(predictions, labels):
-            if prediction == label:
+            if round(prediction) == label:
                 correct += 1
         return correct / len(predictions)
 

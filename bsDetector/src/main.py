@@ -17,5 +17,5 @@ class Query(BaseModel):
     text: str
 @app.post("/")
 async def bs_predictor(query: Query):
-    bs_score : numpy.ndarray = algorithm.predict([query.text])
-    return {"bs_score": bs_score.tolist()}
+    bs_score : numpy.ndarray = algorithm.predict_probability([query.text])
+    return {"bs_score": float(bs_score[0])}

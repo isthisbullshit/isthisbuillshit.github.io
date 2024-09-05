@@ -26,7 +26,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          driver-opts: image=moby/buildkit:v0.10.6
+          driver-opts: network=host
           file: Dockerfile
           push: true
           tags: 127.0.0.1:12346/bs-detector-2

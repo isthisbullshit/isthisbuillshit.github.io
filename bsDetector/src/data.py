@@ -60,4 +60,5 @@ data = [
     ("wild rabbits mate for life", 0),
 ]
 
+np.random.seed(12345)
 split = np.random.choice([0, 1], len(data))

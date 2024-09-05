@@ -1,4 +1,3 @@
-import numpy as np
 from transformers import pipeline
 import xgboost
 import os
@@ -33,13 +32,6 @@ def runExperiment(algorithm, dataset, metrics):
 def measureQuality(algorithm, dataset, metrics):
     predictions = algorithm.predict(dataset.test_inputs())
     print(f"accuracy is {metrics.measure(predictions, dataset.test_labels())}")
-
-
-def load_embedding_extractor_from_directory(directory):
-    pass
-
-def load_classifier_from_directory(directory):
-    pass
 
 def load_embedding_extractor(directory) -> PipelineAveragingEmbeddingExtractor:
     return PipelineAveragingEmbeddingExtractor(pipeline("feature-extraction",directory))

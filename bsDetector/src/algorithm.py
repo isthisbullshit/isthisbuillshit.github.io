@@ -6,20 +6,6 @@ import os
 from model.embeddingExtractor import PipelineAveragingEmbeddingExtractor
 
 
-class Accuracy():
-
-    def measure(self, predictions, labels):
-        correct = 0
-        for prediction, label in zip(predictions, labels):
-            if prediction == label:
-                correct += 1
-        return correct / len(predictions)
-
-
-assert Accuracy().measure([0, 1, 1], [0, 1, 1]) == 1
-assert Accuracy().measure([0, 1], [1, 1]) == 0.5
-
-
 class Dataset:
     def __init__(self, dataset, split):
         self.dataset = dataset

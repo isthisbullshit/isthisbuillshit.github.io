@@ -3,6 +3,7 @@ import torch
 import algorithm
 import xgboost
 
+from accuracy import Accuracy
 from dataset import data, split
 
 model_id = "HuggingFaceTB/SmolLM-135M"
@@ -12,10 +13,10 @@ smolLM_135_pipeline = transformers.pipeline(
 )
 
 theXGboostEmbeddingExtractorAlgorithm = algorithm.Algorithm(algorithm.PipelineAveragingEmbeddingExtractor(smolLM_135_pipeline), xgboost.XGBClassifier())
-algorithm.runExperiment(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())
-algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())
+algorithm.runExperiment(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), Accuracy())
+algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), Accuracy())
 
 theXGboostEmbeddingExtractorAlgorithm.save_to_directory("model")
 
 t = algorithm.load_algorithm_from_directory("model")
-algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), algorithm.Accuracy())
+algorithm.measureQuality(theXGboostEmbeddingExtractorAlgorithm, algorithm.Dataset(data, split), Accuracy())

@@ -39,7 +39,7 @@ async def health():
 
 
 @app.post("/metrics")
-async def bullshitAI(request: Request):
+async def metrics(request: Request):
     cookie = request.cookies.get('session')
     if cookie is None:
         cookie = str(uuid.uuid4())
@@ -49,6 +49,17 @@ async def bullshitAI(request: Request):
 
     response = JSONResponse(content={"message": "Great BS"})
     response.set_cookie(key="session", value=cookie)
+
+    return response
+
+@app.get("/BSScore")
+async def getBSScore(request: Request):
+    cookie = request.cookies.get('session')
+    if cookie is None:
+        cookie = str(uuid.uuid4())
+
+    with open(f"requests/{datetime.now().timestamp()}{cookie}", 'w') as fp:
+        fp.write(f"{await request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']} \n\n {request.headers['x-forwarded-for']}")
 
     return response
 

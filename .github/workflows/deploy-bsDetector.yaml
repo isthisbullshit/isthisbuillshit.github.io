@@ -26,11 +26,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          driver-opts: image=moby/buildkit:v0.10.6
           file: Dockerfile
-          push: false
+          push: true
           tags: 127.0.0.1:12346/bs-detector-2
-      - name: push number2
-        run: docker push 127.0.0.1:12346/bs-detector-2
       - name: teardown
         if: always()
         run: |

@@ -21,12 +21,13 @@ jobs:
           DOCKER_BUILDKIT=1 docker build . -t 127.0.0.1:12346/bs-detector
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: network=host
       - name: push number2
         run: docker push 127.0.0.1:12346/bs-detector
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          driver-opts: network=host
           file: Dockerfile
           push: true
           tags: 127.0.0.1:12346/bs-detector-2

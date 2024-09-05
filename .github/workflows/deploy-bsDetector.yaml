@@ -11,28 +11,17 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: setup ssh connection
-        run: |
-          echo "${{ secrets.BACKEND_SSH_KEY }}" > $(pwd)/private_key
-          chmod 600 $(pwd)/private_key
-          ssh -o "IdentitiesOnly=yes" -i $(pwd)/private_key -o 'StrictHostKeyChecking=no' -o 'UpdateHostKeys=no' -M -S server-socket -fnNT -L 12346:${{ secrets.BACKEND_SSH_HOST }}:5000 ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
-          DOCKER_BUILDKIT=1 docker build . -t 127.0.0.1:12346/bs-detector
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: network=host
-      - name: push number2
-        run: docker push 127.0.0.1:12346/bs-detector
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          file: Dockerfile
-          push: true
-          tags: 127.0.0.1:12346/bs-detector-2
-      - name: teardown
-        if: always()
-        run: |
-          ssh -S server-socket -O exit ${{ secrets.BACKEND_SSH_USERNAME }}@${{ secrets.BACKEND_SSH_HOST }}
-
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.BACKEND_SSH_HOST }}
+        username: ${{ secrets.BACKEND_SSH_USERNAME }}
+        key: ${{ secrets.BACKEND_SSH_KEY }}
+        port: ${{ secrets.BACKEND_SSH_PORT }}
+        script: |
+          cd ~/isthisbuillshit.github.io
+          git pull
+          cd ~/isthisbuillshit.github.io/bsDetector
+          make install-server-locally
+          tmux kill-session -t bsDetector || true
+          tmux new-session -s bsDetector -d 'make run-server-prod'

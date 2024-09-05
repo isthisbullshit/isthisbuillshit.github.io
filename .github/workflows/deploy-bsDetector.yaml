@@ -20,7 +20,7 @@ jobs:
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script: |
           cd ~/isthisbuillshit.github.io
-          git pull
+          git lfs pull
           cd ~/isthisbuillshit.github.io/bsDetector
           make install-server-locally
           tmux send-keys -t bsDetector C-c || true

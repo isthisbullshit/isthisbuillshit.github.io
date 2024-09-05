@@ -29,7 +29,7 @@ jobs:
         with:
           file: Dockerfile
           push: true
-          tags: localhost:12346/bs-detector-2
+          tags: 127.0.0.1:12346/bs-detector-2
       - name: teardown
         if: always()
         run: |

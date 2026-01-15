@@ -258,7 +258,9 @@ const main = () => {
   };
 
   const bsTrack = (event, data) => {
-    const apiUrl = `${window.location.protocol}//api.${window.location.host}/metrics`;
+    const apiUrl = `${location.protocol}//${
+      location.hostname === 'localhost' ? location.host : `api.${location.host}`
+    }/metrics`;
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 

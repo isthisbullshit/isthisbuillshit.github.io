@@ -77,7 +77,9 @@ const main = () => {
 
   const event = {
     view: "page-view",
+    view_query: "view-query",
     query: "bs-query",
+    view_report: "view-report",
     share: "bs-share",
     certify: "bs-certify",
     exonerate: "bs-exonerate",
@@ -91,11 +93,29 @@ const main = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const initialBsQuery = urlParams.get("bs-query");
+    const initialBSReport = urlParams.get("bs-report");
     if (initialBsQuery) {
       _elements.input.value = initialBsQuery;
+      bsTrack(event.view_query, initialBsQuery);
+    } else if (initialBSReport){
+      const the_report = newBullshitRepot(initialBSReport);
+      displayReport(the_report);
+      bsTrack(event.view_report, initialBSReport);
+    } else {
+      bsTrack(event.view, initialBsQuery);
     }
-    bsTrack(event.view, initialBsQuery);
   };
+
+  const displayReport = (report) => {
+    _elements.loading.style.display = "none";
+    _elements.bsReport.style.display = "block";
+    _elements.bsQuery.style.display = "none";
+    _elements.bsScore.innerText = report.score;
+    _elements.bsSummary.innerText = report.summary;
+    _elements.bsFactors.innerText = report.factors.join(", ");
+    _elements.checkBtn.disabled = false;
+    _elements.input.disabled = false;
+  }
 
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
@@ -124,14 +144,7 @@ const main = () => {
     bsTrack(event.query, { query: inputValue, report });
 
     setTimeout(() => {
-      _elements.loading.style.display = "none";
-      _elements.bsReport.style.display = "block";
-      _elements.bsQuery.style.display = "none";
-      _elements.bsScore.innerText = report.score;
-      _elements.bsSummary.innerText = report.summary;
-      _elements.bsFactors.innerText = report.factors.join(", ");
-      _elements.checkBtn.disabled = false;
-      _elements.input.disabled = false;
+      displayReport(report);
       stopAiQuery();
     }, 7000);
   });

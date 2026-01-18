@@ -17,6 +17,8 @@ const main = () => {
     bsExonerate: document.getElementById("bs-exonerate"),
     aiVersion: document.getElementById("ai-version"),
     bsQueryText: document.getElementById("bs-query-text"),
+    certified_bs_stamp: document.getElementById("certified-bs-stamp"),
+    true_fact_stamp: document.getElementById("true-fact-stamp"),
   };
 
   const aiServices = [
@@ -95,6 +97,8 @@ const main = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const initialBsQuery = urlParams.get("bs-query");
     const initialBSReport = urlParams.get("bs-report");
+    const certification = urlParams.get("bs-certified");
+
     if (initialBsQuery) {
       _elements.input.value = initialBsQuery;
       bsTrack(event.view_query, initialBsQuery);
@@ -102,6 +106,9 @@ const main = () => {
       const the_report = newBullshitRepot(initialBSReport);
       displayReport(the_report);
       bsTrack(event.view_report, initialBSReport);
+      if (certification) {
+        setVerdictView(certification)
+      }
     } else {
       bsTrack(event.view, initialBsQuery);
     }
@@ -177,6 +184,15 @@ const main = () => {
     }, 2000);
   });
 
+  _elements.bsCertify.addEventListener("click", () => {
+    setVerdict(event.certify);
+  });
+
+  _elements.bsExonerate.addEventListener("click", () => {
+    setVerdict(event.exonerate);
+  });
+
+
   const displayReport = (report) => {
     _elements.loading.style.display = "none";
     _elements.bsReport.style.display = "block";
@@ -189,22 +205,26 @@ const main = () => {
     _elements.input.disabled = false;
   }
 
-
-  function setVerdict(verdictEvent) {
+  const  setVerdict = (verdictEvent) => {
     const url = new URL(window.location.href);
-    bsTrack(verdictEvent, {query: url.searchParams.get("bs-query")});
-    url.searchParams.set("bs-verdict", verdictEvent);
-    url.pathname = url.pathname.replace(RegExp("(/index.html$)|(/$)"), "/verdict.html")
-    window.location.href = url.href;
+    bsTrack(verdictEvent, {query: url.searchParams.get("bs-report")});
+    url.searchParams.set("bs-certified", verdictEvent);
+    setVerdictView(verdictEvent);
+    window.history.replaceState({}, "", url);
   }
 
-  _elements.bsCertify.addEventListener("click", () => {
-    setVerdict(event.certify);
-  });
-
-  _elements.bsExonerate.addEventListener("click", () => {
-    setVerdict(event.exonerate);
-  });
+  const setVerdictView = (verdictEvent) => {
+    if (verdictEvent === event.certify) {
+      _elements.true_fact_stamp.style.display = "none"
+      _elements.certified_bs_stamp.style.display = "block"
+    } else if (verdictEvent === event.exonerate) {
+      _elements.true_fact_stamp.style.display = "block"
+      _elements.certified_bs_stamp.style.display = "none"
+    } else {
+      _elements.true_fact_stamp.style.display = "none"
+      _elements.certified_bs_stamp.style.display = "none"
+    }
+  }
 
   const setRandomPlaceholder = () => {
     const placeholder =

@@ -16,6 +16,7 @@ const main = () => {
     bsCertify: document.getElementById("bs-certify"),
     bsExonerate: document.getElementById("bs-exonerate"),
     aiVersion: document.getElementById("ai-version"),
+    bsQueryText: document.getElementById("bs-query-text"),
   };
 
   const aiServices = [
@@ -106,17 +107,6 @@ const main = () => {
     }
   };
 
-  const displayReport = (report) => {
-    _elements.loading.style.display = "none";
-    _elements.bsReport.style.display = "block";
-    _elements.bsQuery.style.display = "none";
-    _elements.bsScore.innerText = report.score;
-    _elements.bsSummary.innerText = report.summary;
-    _elements.bsFactors.innerText = report.factors.join(", ");
-    _elements.checkBtn.disabled = false;
-    _elements.input.disabled = false;
-  }
-
   _elements.checkBtn.addEventListener("click", () => {
     const inputValue = _elements.input.value;
     if (inputValue === "") {
@@ -144,6 +134,7 @@ const main = () => {
     bsTrack(event.query, { query: inputValue, report });
 
     setTimeout(() => {
+      setBsUrlReport(inputValue);
       displayReport(report);
       stopAiQuery();
     }, 7000);
@@ -186,6 +177,19 @@ const main = () => {
     }, 2000);
   });
 
+  const displayReport = (report) => {
+    _elements.loading.style.display = "none";
+    _elements.bsReport.style.display = "block";
+    _elements.bsQuery.style.display = "none";
+    _elements.bsQueryText.innerText = report.query_string;
+    _elements.bsScore.innerText = report.score;
+    _elements.bsSummary.innerText = report.summary;
+    _elements.bsFactors.innerText = report.factors.join(", ");
+    _elements.checkBtn.disabled = false;
+    _elements.input.disabled = false;
+  }
+
+
   function setVerdict(verdictEvent) {
     const url = new URL(window.location.href);
     bsTrack(verdictEvent, {query: url.searchParams.get("bs-query")});
@@ -227,6 +231,14 @@ const main = () => {
     window.history.replaceState({}, "", url);
   };
 
+  const setBsUrlReport = (query) => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("bs-query");
+    url.searchParams.set("bs-report", query);
+    window.history.replaceState({}, "", url);
+  };
+
+
   const encoder = new TextEncoder();
   const newBullshitRepot = (str) => {
     const uint = encoder.encode(str);
@@ -238,7 +250,8 @@ const main = () => {
 
     const summary = scoreToSummary(score);
     const factors = factorsFromScore(score);
-    return { score, summary, factors };
+    const query_string = str
+    return { score, summary, factors, query_string};
   };
 
   const scoreToSummary = (score) => {

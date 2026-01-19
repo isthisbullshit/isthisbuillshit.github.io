@@ -1,10 +1,6 @@
-name: deploy-bsdetector
-on: 
+name: deploy-all
+on:
   push:
-    paths:
-      - .github/workflows/deploy-bsDetector.yaml
-      - bsDetector/**
-      - Dockerfile
 
 jobs:
   build:
@@ -21,8 +17,5 @@ jobs:
         script: |
           cd ~/isthisbuillshit.github.io
           git lfs pull
-          cd ~/isthisbuillshit.github.io/bsDetector
-          make install-server-locally
-          tmux send-keys -t bsDetector C-c || true
-          tmux kill-session -t bsDetector || true
-          tmux new-session -s bsDetector -d 'make run-server-prod'
+          docker compose down
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d

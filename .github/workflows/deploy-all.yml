@@ -16,6 +16,6 @@ jobs:
         port: ${{ secrets.BACKEND_SSH_PORT }}
         script: |
           cd ~/isthisbuillshit.github.io
-          git lfs pull
+          git pull
           docker compose down
           docker compose -f docker-compose.yml -f docker-compose.pro.yml up -d

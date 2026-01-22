@@ -10,6 +10,7 @@ services:
       - "80:80"
     depends_on:
       - backend
+      - keycloak
 
   backend:
     build:
@@ -21,3 +22,14 @@ services:
     ports:
         - "8000:8000"
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.6
+    container_name: keycloak
+    environment:
+      - KC_DB=dev-file
+      - KC_HTTP_RELATIVE_PATH=/auth
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command: ["start-dev", "--http-port=8080", "--hostname-strict=false"]
+    ports:
+      - "8080:8080"

@@ -12,3 +12,10 @@ services:
     ports: []
     expose:
       - "8000"
+
+  keycloak:
+    ports: []
+    expose:
+      - "8080"
+    depends_on:
+      - keycloak-db

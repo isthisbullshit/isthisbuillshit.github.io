@@ -4,6 +4,7 @@ const main = () => {
 
   const _elements = {
     loginBtn: document.getElementById("login"),
+    loginStatus: document.getElementById("login-status"),
     checkBtn: document.getElementById("check"),
     checkAgainBtn: document.getElementById("check-again"),
     input: document.getElementById("input"),
@@ -94,6 +95,7 @@ const main = () => {
   const onInit = () => {
     _elements.aiVersion.innerText = aiEngineVersion;
     setRandomPlaceholder();
+    loadLoginStatus();
 
     const urlParams = new URLSearchParams(window.location.search);
     const initialBsQuery = urlParams.get("bs-query");
@@ -207,6 +209,7 @@ const main = () => {
         throw new Error(`Login failed with status ${response.status}`);
       }
       _elements.loginBtn.innerText = "Logged in";
+      await loadLoginStatus();
     } catch (err) {
       console.warn(err);
       _elements.loginBtn.innerText = originalText;
@@ -214,6 +217,29 @@ const main = () => {
       window.alert("Login failed. Please try again.");
     }
   });
+
+  const loadLoginStatus = async () => {
+    if (!_elements.loginStatus) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/status", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`Status failed with ${response.status}`);
+      }
+      const data = await response.json();
+      _elements.loginStatus.innerText = data.logged_in
+        ? "Status: logged in"
+        : "Status: logged out";
+    } catch (err) {
+      console.warn(err);
+      _elements.loginStatus.innerText = "Status: unknown";
+    }
+  };
 
 
   const displayReport = (report) => {

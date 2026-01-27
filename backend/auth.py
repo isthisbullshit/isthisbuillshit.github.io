@@ -1,6 +1,6 @@
 import uuid
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 router = APIRouter()
@@ -18,3 +18,9 @@ async def login():
     )
     response.set_cookie(key="auth", value=auth_token)
     return response
+
+
+@router.get("/api/auth/status")
+async def status(request: Request):
+    auth_cookie = request.cookies.get("auth")
+    return {"logged_in": auth_cookie is not None}

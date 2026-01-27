@@ -3,6 +3,7 @@ const main = () => {
   const queryLimitFreeTier = 1500;
 
   const _elements = {
+    loginBtn: document.getElementById("login"),
     checkBtn: document.getElementById("check"),
     checkAgainBtn: document.getElementById("check-again"),
     input: document.getElementById("input"),
@@ -190,6 +191,28 @@ const main = () => {
 
   _elements.bsExonerate.addEventListener("click", () => {
     setVerdict(event.exonerate);
+  });
+
+  _elements.loginBtn?.addEventListener("click", async () => {
+    _elements.loginBtn.disabled = true;
+    const originalText = _elements.loginBtn.innerText;
+    _elements.loginBtn.innerText = "Logging in...";
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`Login failed with status ${response.status}`);
+      }
+      _elements.loginBtn.innerText = "Logged in";
+    } catch (err) {
+      console.warn(err);
+      _elements.loginBtn.innerText = originalText;
+      _elements.loginBtn.disabled = false;
+      window.alert("Login failed. Please try again.");
+    }
   });
 
 

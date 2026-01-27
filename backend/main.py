@@ -10,12 +10,15 @@ from pydantic import BaseModel
 import uuid
 from pathlib import Path
 
+from auth import router as auth_router
+
 Path("data").mkdir(parents=True, exist_ok=True)
 
 class Bullshit(BaseModel):
     text: str
 
 app = FastAPI()
+app.include_router(auth_router)
 
 origins = [
     "https://isthisbullsh.it",
@@ -55,6 +58,8 @@ async def metrics(request: Request):
 
     return response
 
+
+
 class Query(BaseModel):
     text: str
 
@@ -84,4 +89,3 @@ async def getBSScore(query: Query, request: Request):
     response.set_cookie(key="session", value=cookie)
 
     return response
-

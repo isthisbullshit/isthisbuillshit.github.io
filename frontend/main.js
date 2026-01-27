@@ -198,17 +198,18 @@ const main = () => {
   _elements.loginBtn?.addEventListener("click", async () => {
     _elements.loginBtn.disabled = true;
     const originalText = _elements.loginBtn.innerText;
-    _elements.loginBtn.innerText = "Logging in...";
+    const isLoggedIn = _elements.loginBtn.dataset.loggedIn === "true";
+    _elements.loginBtn.innerText = isLoggedIn ? "Logging out..." : "Logging in...";
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const endpoint = isLoggedIn ? "/api/auth/logout" : "/api/auth/login";
+      const response = await fetch(endpoint, {
         method: "POST",
         credentials: "include",
       });
       if (!response.ok) {
         throw new Error(`Login failed with status ${response.status}`);
       }
-      _elements.loginBtn.innerText = "Logged in";
       await loadLoginStatus();
     } catch (err) {
       console.warn(err);
@@ -232,12 +233,27 @@ const main = () => {
         throw new Error(`Status failed with ${response.status}`);
       }
       const data = await response.json();
-      _elements.loginStatus.innerText = data.logged_in
-        ? "Status: logged in"
-        : "Status: logged out";
+      setLoginUi(Boolean(data.logged_in));
     } catch (err) {
       console.warn(err);
       _elements.loginStatus.innerText = "Status: unknown";
+      if (_elements.loginBtn) {
+        _elements.loginBtn.dataset.loggedIn = "false";
+        _elements.loginBtn.innerText = "Login";
+      }
+    }
+  };
+
+  const setLoginUi = (loggedIn) => {
+    if (_elements.loginStatus) {
+      _elements.loginStatus.innerText = loggedIn
+        ? "Status: logged in"
+        : "Status: logged out";
+    }
+    if (_elements.loginBtn) {
+      _elements.loginBtn.dataset.loggedIn = loggedIn ? "true" : "false";
+      _elements.loginBtn.innerText = loggedIn ? "Log out" : "Login";
+      _elements.loginBtn.disabled = false;
     }
   };
 

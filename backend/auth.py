@@ -24,3 +24,15 @@ async def login():
 async def status(request: Request):
     auth_cookie = request.cookies.get("auth")
     return {"logged_in": auth_cookie is not None}
+
+
+@router.post("/api/auth/logout")
+async def logout():
+    response = JSONResponse(
+        content={
+            "success": True,
+            "message": "Logged out",
+        }
+    )
+    response.delete_cookie(key="auth")
+    return response

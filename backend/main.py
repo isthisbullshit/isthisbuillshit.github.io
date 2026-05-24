@@ -8,11 +8,9 @@ from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
 import uuid
-from pathlib import Path
+from workers import env
 
 from auth import router as auth_router
-
-Path("data").mkdir(parents=True, exist_ok=True)
 
 class Bullshit(BaseModel):
     text: str
@@ -34,6 +32,26 @@ app.add_middleware(
 )
 
 
+def _client_address(request: Request) -> str:
+    forwarded = request.headers.get("cf-connecting-ip") or request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded
+    if request.client is not None and request.client.host:
+        return request.client.host
+    return "unknown"
+
+
+async def _write_event(key_prefix: str, cookie: str, request: Request) -> None:
+    timestamp = datetime.now().timestamp()
+    key = f"{key_prefix}{timestamp}-{cookie}.txt"
+    user_agent = request.headers.get("user-agent", "unknown")
+    client_address = _client_address(request)
+    payload = await request.body()
+    body_text = payload.decode("utf-8", errors="replace")
+    content = f"{body_text}\n\n{client_address}\n\n{user_agent}"
+    await env.BULLSHIT_BUCKET.put(key, content)
+
+
 @app.get("/")
 async def root():
     return {"check the docs for help"}
@@ -50,8 +68,7 @@ async def metrics(request: Request):
     if cookie is None:
         cookie = str(uuid.uuid4())
 
-    with open(f"data/{datetime.now().timestamp()}{cookie}", 'w') as fp:
-        fp.write(f"{await request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']} \n\n {request.headers['x-forwarded-for']}")
+    await _write_event("metrics/", cookie, request)
 
     response = JSONResponse(content={"message": "Great BS"})
     response.set_cookie(key="session", value=cookie)
@@ -71,8 +88,7 @@ async def getBSScore(query: Query, request: Request):
 
     print("getting bs score")
 
-    with open(f"data/get_bs_score-{datetime.now().timestamp()}{cookie}", 'w') as fp:
-        fp.write(f"{await request.body()} \n\n {request.client.host} \n\n {request.headers['User-Agent']} ")
+    await _write_event("get_bs_score/", cookie, request)
 
     headers = {'accept': 'application/json', 'Content-Type': 'application/json'}
     payload = {

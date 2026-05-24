@@ -4,6 +4,13 @@
   "main": "./worker.py",
   "compatibility_date": "2026-05-24",
   "compatibility_flags": ["python_workers"],
+  "r2_buckets": [
+    {
+      "binding": "BULLSHIT_BUCKET",
+      "bucket_name": "bullshit",
+      "preview_bucket_name": "bullshit"
+    }
+  ],
   "observability": {
     "enabled": true
   }

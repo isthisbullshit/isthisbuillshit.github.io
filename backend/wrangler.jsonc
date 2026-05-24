@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "isthisbullshit-backend",
+  "main": "./worker.py",
+  "compatibility_date": "2026-05-24",
+  "compatibility_flags": ["python_workers"],
+  "observability": {
+    "enabled": true
+  }
+}

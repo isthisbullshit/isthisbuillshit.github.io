@@ -19,11 +19,6 @@ if ! command -v grep >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! npx wrangler r2 bucket list | grep -q '"name":"bullshit"\|"name": "bullshit"'; then
-  echo "Creating R2 bucket: bullshit..."
-  npx wrangler r2 bucket create bullshit
-fi
-
 echo "Deploying backend worker..."
 (
   cd "$SCRIPT_DIR/backend"

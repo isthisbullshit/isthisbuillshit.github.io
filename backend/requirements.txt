@@ -1,5 +1,0 @@
-fastapi[standard]
-uvicorn[standard]
-gunicorn
-pydantic
-aiohttp

@@ -1,9 +1,13 @@
-FROM python:3.11.9-slim-bullseye
+FROM python:3.12-slim-bullseye
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir uv
+
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-dev
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 COPY . .
 

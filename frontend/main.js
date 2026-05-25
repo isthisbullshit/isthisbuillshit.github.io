@@ -369,9 +369,7 @@ const main = () => {
   };
 
   const bsTrack = (event, data) => {
-    const apiUrl = `${location.protocol}//${
-      location.hostname === 'localhost' || location.hostname.startsWith('api') ? location.host : `api.${location.host}`
-    }/metrics`;
+    const apiUrl = `${location.protocol}//${ location.host}/api/metrics`;
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 

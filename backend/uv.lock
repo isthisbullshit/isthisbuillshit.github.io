@@ -545,7 +545,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "workers-py" },
+    { name = "workers-py", specifier = ">=1.9.4" },
     { name = "workers-runtime-sdk" },
 ]
 

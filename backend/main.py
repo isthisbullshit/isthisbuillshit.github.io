@@ -8,7 +8,18 @@ from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
 import uuid
-from workers import env
+
+try:
+    from workers import env
+except ModuleNotFoundError:
+    class _LocalBucket:
+        async def put(self, key: str, content: str) -> None:
+            return None
+
+    class _LocalEnv:
+        BULLSHIT_BUCKET = _LocalBucket()
+
+    env = _LocalEnv()
 
 from auth import router as auth_router
 

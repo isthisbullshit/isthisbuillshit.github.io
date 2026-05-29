@@ -1,5 +1,5 @@
 deploy-cloudflare:
-	cd frontend && npx wrangler deploy
+	npx wrangler deploy
 
 download-data:
 	ssh root@64.226.88.99  -t 'tar czf data.tar.gz /root/isthisbuillshit.github.io/backend/data'

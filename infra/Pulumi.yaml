@@ -1,0 +1,23 @@
+name: isthisbullshit-infra
+runtime:
+  name: python
+description: GCP infrastructure for the isthisbullshit backend
+config:
+  gcp:project:
+    value: isthisbullshit
+  gcp:region:
+    value: europe-west1
+  isthisbullshit-infra:backendServiceName:
+    default: isthisbullshit-backend
+  isthisbullshit-infra:artifactRepositoryId:
+    default: isthisbullshit-backend
+  isthisbullshit-infra:artifactRepositoryLocation:
+    default: europe
+  isthisbullshit-infra:bucketLocation:
+    default: EU
+  isthisbullshit-infra:allowedOrigins:
+    value:
+      - https://isthisbullsh.it
+      - https://api.isthisbullsh.it
+  isthisbullshit-infra:bsDetectorUrl:
+    default: http://localhost:8001/

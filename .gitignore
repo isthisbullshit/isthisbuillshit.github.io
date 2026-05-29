@@ -13,6 +13,12 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.pulumi/
+infra/.venv/
+infra/.pulumi/
+infra/__pycache__/
+infra/.pulumi-state/
+gha-creds-*.json
 
 .swp
 # macOS-specific files

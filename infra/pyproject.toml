@@ -1,0 +1,12 @@
+[project]
+name = "isthisbullshit-infra"
+version = "0.1.0"
+description = "Pulumi infrastructure for the isthisbullshit backend on GCP"
+requires-python = ">=3.12"
+dependencies = [
+    "pulumi>=3.244.0",
+    "pulumi-gcp>=9.25.0",
+]
+
+[tool.uv]
+package = false

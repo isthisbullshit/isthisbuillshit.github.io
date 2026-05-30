@@ -4,7 +4,7 @@ export default {
 
     if (url.pathname.startsWith("/api/")) {
       const backendUrl = new URL(request.url);
-      backendUrl.hostname = "";
+      backendUrl.hostname = "isthisbullshit-backend-385552504501.europe-west1.run.app";
       backendUrl.protocol = "https:";
       backendUrl.pathname = url.pathname;
 

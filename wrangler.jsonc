@@ -3,7 +3,19 @@
   "main": "index.ts",
   "compatibility_date": "2026-05-22",
   "observability": {
-    "enabled": false
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
   },
   "assets": {
     "directory": "./frontend",

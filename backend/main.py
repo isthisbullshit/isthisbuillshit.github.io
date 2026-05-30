@@ -130,12 +130,12 @@ async def root():
     return {"check the docs for help"}
 
 
-@app.get("/health")
+@app.get("/api/health")
 async def health():
     return {"I am good. Thank you!"}
 
 
-@app.post("/metrics")
+@app.post("/api/metrics")
 async def metrics(request: Request):
     cookie = request.cookies.get('session')
     if cookie is None:
@@ -153,7 +153,7 @@ async def metrics(request: Request):
 class Query(BaseModel):
     text: str
 
-@app.post("/bs_score")
+@app.post("/api/bs_score")
 async def getBSScore(query: Query, request: Request):
     cookie = request.cookies.get('session')
     if cookie is None:

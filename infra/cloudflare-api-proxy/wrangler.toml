@@ -1,0 +1,7 @@
+name = "isthisbullshit-api-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-05-30"
+
+routes = [
+  { pattern = "isthisbullsh.it/api/*", zone_name = "isthisbullsh.it" }
+]

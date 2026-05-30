@@ -1,7 +1,9 @@
 {
   "name": "isthisbuillshit",
+  "main": "index.ts",
   "compatibility_date": "2026-05-22",
   "assets": {
-    "directory": "./frontend"
+    "directory": "./frontend",
+    "binding": "ASSETS"
   }
 }

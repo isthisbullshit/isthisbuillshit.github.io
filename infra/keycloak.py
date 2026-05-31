@@ -53,12 +53,12 @@ def deploy_keycloak(
     *,
     region: str,
     stack: str,
+    image: pulumi.Input[str],
     depends_on: list[pulumi.Resource],
 ) -> KeycloakDeployment:
     config = pulumi.Config()
 
     service_name = config.get("keycloakServiceName") or "isthisbullshit-keycloak"
-    image = config.require("keycloakImage")
     hostname = config.get("keycloakHostname")
     admin_username = config.get("keycloakAdminUsername") or "admin"
     admin_password = config.require_secret("keycloakAdminPassword")

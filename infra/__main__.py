@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pulumi
+import pulumi_docker_build as docker_build
 import pulumi_gcp as gcp
 
 from keycloak import deploy_keycloak
@@ -17,7 +18,7 @@ stack = pulumi.get_stack()
 github_owner = config.require("githubOwner")
 github_repo = config.require("githubRepo")
 
-backend_service_name = config.get("backendServiceName") or "isthisbullshit-backend"
+backend_service_name = config.get("backendServiceName")
 artifact_repository_id = config.get("artifactRepositoryId") or "isthisbullshit-backend"
 artifact_repository_location = config.get("artifactRepositoryLocation") or "europe"
 bucket_location = config.get("bucketLocation") or "EU"
@@ -225,9 +226,23 @@ artifact_repository_url = pulumi.Output.concat(
     artifact_repository.repository_id,
 )
 
+keycloak_image_tag = pulumi.Output.concat(artifact_repository_url, "/keycloak:latest")
+keycloak_image = docker_build.Image(
+    "keycloak-image",
+    build_on_preview=False,
+    context={
+        "location": "keycloak",
+    },
+    platforms=["linux/amd64"],
+    push=True,
+    tags=[keycloak_image_tag],
+    opts=pulumi.ResourceOptions(depends_on=[artifact_repository]),
+)
+
 deploy_keycloak(
     region=region,
     stack=stack,
+    image=keycloak_image.ref,
     depends_on=[*enabled_services, artifact_repository],
 )
 
@@ -246,8 +261,9 @@ pulumi.export("artifactRepositoryId", artifact_repository.repository_id)
 pulumi.export("artifactRepositoryUrl", artifact_repository_url)
 pulumi.export(
     "suggestedBackendImage",
-    pulumi.Output.concat(artifact_repository_url, "/backend:latest"),
+    pulumi.Output.concat(artifact_repository_url, "/backend"),
 )
+pulumi.export("keycloakImageTag", keycloak_image_tag)
 pulumi.export("eventsBucketName", events_bucket.name)
 pulumi.export("runtimeServiceAccountEmail", runtime_service_account.email)
 pulumi.export("githubDeployerServiceAccountEmail", github_deployer_service_account.email)

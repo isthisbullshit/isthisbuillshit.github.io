@@ -8,6 +8,7 @@ Pulumi project for the backend's GCP infrastructure.
 - Cloud Storage bucket for backend event payloads
 - Dedicated service account for the backend runtime
 - Cloud Run service configured for the backend container
+- Cloud Run service configured for the Keycloak container
 - Public invoker IAM binding for the Cloud Run service
 
 ## Required config
@@ -21,6 +22,9 @@ mkdir -p .pulumi-state
 ./pulumi login file://$PWD/.pulumi-state
 ./pulumi stack init dev
 ./pulumi config set backendImage europe-docker.pkg.dev/isthisbullshit/isthisbullshit-backend/backend:latest
+./pulumi config set keycloakImage europe-docker.pkg.dev/isthisbullshit/isthisbullshit-backend/keycloak:latest
+./pulumi config set --secret keycloakAdminPassword '<password>'
+./pulumi config set --secret keycloakDatabaseUrl '<postgres-url>'
 ```
 
 Optional overrides:
@@ -39,4 +43,12 @@ Optional overrides:
 - In this checkout, `.venv/bin/pulumi` can also point to the same local binary so `uv run pulumi ...` works when the symlink exists.
 - The default workflow can be fully standalone by logging into the local filesystem backend at `file://$PWD/.pulumi-state` instead of Pulumi Cloud.
 - The backend container must be built and pushed separately to the Artifact Registry repository output by this stack.
+- The Keycloak container is built from `keycloak/Dockerfile` and should be pushed to the same Artifact Registry repository as the backend.
 - The backend service receives `EVENTS_BUCKET_NAME`, `BS_DETECTOR_URL`, and `ALLOWED_ORIGINS` as environment variables.
+
+Build and push the Keycloak image:
+
+```bash
+docker build -t europe-docker.pkg.dev/isthisbullshit/isthisbullshit-backend/keycloak:latest keycloak
+docker push europe-docker.pkg.dev/isthisbullshit/isthisbullshit-backend/keycloak:latest
+```

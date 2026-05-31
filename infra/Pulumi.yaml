@@ -21,3 +21,5 @@ config:
       - https://api.isthisbullsh.it
   isthisbullshit-infra:bsDetectorUrl:
     default: http://localhost:8001/
+  isthisbullshit-infra:keycloakImage:
+    default: europe-docker.pkg.dev/isthisbullshit/isthisbullshit-backend/keycloak:latest

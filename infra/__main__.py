@@ -3,6 +3,8 @@ from __future__ import annotations
 import pulumi
 import pulumi_gcp as gcp
 
+from keycloak import deploy_keycloak
+
 
 config = pulumi.Config()
 gcp_config = pulumi.Config("gcp")
@@ -221,6 +223,12 @@ artifact_repository_url = pulumi.Output.concat(
     project,
     "/",
     artifact_repository.repository_id,
+)
+
+deploy_keycloak(
+    region=region,
+    stack=stack,
+    depends_on=[*enabled_services, artifact_repository],
 )
 
 github_workload_identity_provider = pulumi.Output.concat(

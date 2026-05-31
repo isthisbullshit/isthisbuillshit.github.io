@@ -240,7 +240,6 @@ github_workload_identity_provider = pulumi.Output.concat(
     github_provider.workload_identity_pool_provider_id,
 )
 
-pulumi.export("cloudRunBackendUrl", cloud_run_service.uri)
 pulumi.export("project", project)
 pulumi.export("region", region)
 pulumi.export("artifactRepositoryId", artifact_repository.repository_id)

@@ -30,10 +30,7 @@ mkdir -p .pulumi-state
 Optional overrides:
 
 ```bash
-./pulumi config set gcp:region europe-west1
 ./pulumi config set bsDetectorUrl https://your-detector-service.run.app/
-./pulumi config set --path allowedOrigins[0] https://isthisbullsh.it
-./pulumi config set --path allowedOrigins[1] https://api.isthisbullsh.it
 ```
 
 ## Notes

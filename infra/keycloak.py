@@ -59,7 +59,6 @@ def deploy_keycloak(
     config = pulumi.Config()
 
     service_name = config.get("keycloakServiceName") or "isthisbullshit-keycloak"
-    hostname = config.get("keycloakHostname")
     admin_username = config.get("keycloakAdminUsername") or "admin"
     admin_password = config.require_secret("keycloakAdminPassword")
     database_url = config.require_secret("keycloakDatabaseUrl").apply(
@@ -106,14 +105,6 @@ def deploy_keycloak(
         ),
     ]
 
-    if hostname:
-        envs.append(
-            gcp.cloudrunv2.ServiceTemplateContainerEnvArgs(
-                name="KC_HOSTNAME",
-                value=hostname,
-            )
-        )
-
     scaling = gcp.cloudrunv2.ServiceTemplateScalingArgs(
         max_instance_count=max_instances,
     )
@@ -131,7 +122,7 @@ def deploy_keycloak(
             containers=[
                 gcp.cloudrunv2.ServiceTemplateContainerArgs(
                     image=image,
-                    args=["start", "--optimized"],
+                    args=["start", "--optimized", "--hostname-strict", "false", "--proxy-headers", "forwarded"],
                     ports=gcp.cloudrunv2.ServiceTemplateContainerPortsArgs(
                         container_port=8080,
                     ),
